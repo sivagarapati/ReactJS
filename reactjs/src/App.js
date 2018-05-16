@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import Person from  './Person/Person';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div className="App">
+				<h1>Hi, I'm React App</h1>
+					<Person />
+			</div>
+		);
+	}
 }
 
 export default App;
