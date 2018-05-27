@@ -1,1 +1,709 @@
 Events Can You Listen  :  https://reactjs.org/docs/events.html#supported-events
+
+What is ReactJS?
+ Bookmark this page
+What is ReactJS?
+ReactJS is a library that generates the view layer of an application based on its state. ReactJS applications are built from React Components - independent resusable components that describe how the UI should look based on their own state and properties.
+
+Why should I use ReactJS?
+ReactJS applications are incredibly performant at UI rerendering
+React Components make writing UI components easier
+What makes ReactJS so efficient at rerendering?
+React Components are used to generate a Virtual DOM - a light-weight abstraction of the actual HTML DOM. The Virtual DOM is able to be generated much more quickly than the HTML DOM because it does not have to calculate CSS styles and layouts. When a React Component changes state, the Virtual DOM is recreated and the difference between the new Virtual DOM and the previous Virtual DOM is calculated. The ReactJS library then calculates the most efficient way to update the HTML DOM to reflect these changes. This ends up being much faster than regenerating the entire HTML DOM from the top.
+
+Virtual DOM
+
+How hard is it to use ReactJS?
+ReactJS is a relatively lightweight library and it does not take a whole lot of code to get started with it.
+
+Here is an example of the code needed for a Hello World application:
+
+   <div id="root"></div>
+
+    ReactDOM.render(
+        <h1>Hello World!</h1>,
+        document.getElementById("root")
+    )
+    
+    React Elements
+React Elements are objects that represent a DOM node. They are written using a syntax extension named JSX which we will cover later in this module. React Elements are different than React Components, which we will also cover later in this module.
+
+
+    var element = <h1>Hello World!</h1>
+React Elements need to be rendered by the ReactDOM.render() method to appear in the DOM.
+
+ReactDOM.render()
+The ReactDOM.render() method is used to render a React Element into a specified part of the HTML DOM. In most React applications, there is usually a single root node where everything gets rendered into, but you may use as many root nodes as you desire.
+
+In this case, the <h1>Hello World!</h1> React Element is rendered into the DOM element with the id of "root".
+
+   <div id="root"></div>
+
+    ReactDOM.render(
+        <h1>Hello World!</h1>,
+        document.getElementById("root")
+    )
+Rerendering the DOM using additional render() calls
+Once a DOM is rendered, it will remain the same until another render() method is called.
+
+The following example uses additional render() calls to update the displayed number:
+
+
+    var num = 0;
+
+    function updateNum(){
+
+        ReactDOM.render(
+            <div>{num++}</div>,
+            document.getElementById("root")
+        )
+    }
+
+   setInterval(updateNum,100)
+   
+   What is JSX?
+JSX is a syntax extension to JavaScript that allows React Elements to be written inside JavaScript using HTML tags.
+
+Using JSX, we can create React Elements easily with HTML Tags:
+
+
+    var element = <h1>Hello World!</h1>
+Without JSX, the process is much slower and more verbose:
+
+
+    var element = React.createElement(
+        'h1',
+        null,
+        'Hello World!'
+    )
+Using JSX with JavaScript Expressions
+Curly braces can be used to embed JavaScript expressions into JSX.
+
+The following are all examples of valid JavaScript expressions in JSX:
+
+    var str = "World!" 
+
+    var element =  <h1> Hello {str}</h1>
+    var item = {
+        name: "Cheese",
+        price: 5
+    }
+    var element = <p>{item.name} : ${item.price} </p>
+    var length = 20
+    var width = 10
+
+    function calculateArea(x,y){
+        return x * y
+    }
+
+    var element = <div>The Area is: {calculateArea(length,width)}</div>
+Using JSX with Attributes
+You can supply attribute values using a string literal surrounded by quotes:
+
+    var element = <button className ="deleteButton"> Delete </button>
+You can also supply attributes values by embedding a JavaScript expression using curly braces:
+
+    var element = <img src ={product.imageURL}></img>
+Do not surround curly braces with quotes. This will cause your expression to be treated as a string literal:
+
+    //Do not do this
+    var element = <img src ="{product.imageURL}"></img>
+Some common HTML attributes are named differently in JSX. For example "class" becomes "className" because "class" is a reserved keyword in JavaScript. Furthermore, attribute names in JSX follow the camelCase naming convention so an HTML attribute such as fontsize would become fontSize in JSX.
+
+Using JSX with Empty Tags
+If a HTML tag is empty, you can close it with a '/>' instead of using a closing tag.
+
+For example:
+
+    var element = <input className ="nameInput"/>
+Using JSX with a Style Object
+The style attribute can be populated with a style object instead of a string literal
+
+For example:
+
+    var styleObject = {
+        backgroundColor: 'red',
+        color:'blue',
+        fontSize: 25,
+        width: 100
+    }
+
+    var element = <input style = {styleObject}/>
+In this next example, the first set of curly braces is for the JSX expression while the second set of curly braces is for the style object:
+
+    var element = <input style = {{width:200,height:100}}/>
+Using JSX with Nested Elements
+React Elements can be nested within other React Elements as long as the whole thing is wrapped by in a single element.
+
+For example:
+
+    var element = (
+        <div>
+            <div>Hello World</div>
+            <div>Hello World</div>
+        </div>
+
+    )
+This example is not surrounded with a single wrapping element and will throw an error:
+
+    var element = (
+        <div>Hello World</div>
+        <div>Hello World</div>
+    )
+It is recommended to surround nested elements with paranthesis to avoid the problems that occur with automatic semicolon insertion.
+
+Using JSX Objects
+Objects created with JSX can be manipulated just like normal JavaScript objects. They can be passed in arrays, used as arguments or return statements to functions and used inside if statements or for loops.
+
+An example using JSX objects within an If Else statement:
+
+
+    var product = {name:"apple",stock:0}
+
+    if(product.stock < 0){
+        var element = <h1>The product named {product.name} is not in stock</h1>
+    }
+    else{
+        var element = <h1>The product named {product.name} and has {product.stock} units in stock</h1>
+    }
+
+    ReactDOM.render(
+        element,
+        document.getElementById("root")
+    )
+    
+    
+    React Components
+A React Component is an independent reusable component that outputs a React Element based on its properties and state.
+
+There are two types of React Components:
+
+Functional Components
+Class Components
+Class Components have state, lifecycle methods, and properties while Functional Components only have properties. In this module, we will cover Functional Components while Class Components will be covered in Module 2.
+
+Functional Components
+Functional Components are just functions that output React Elements. By convention, the first letter of the function name should be capitalized.
+
+Here is an example:
+
+    function HelloWorld(){
+        return <h1>Hello World!</h1>
+    }
+You can use the React Component in JSX by creating an HTML tag with the same name as the React Component:
+
+    var element = <HelloWorld/>
+Another Example:
+
+   ReactDOM.render(
+        <HelloWorld/>,
+        document.getElementById("root")
+    )
+These examples will all evaluate to the React Element that is returned by the HelloWorld Component.
+
+Adding Properties to Functional Components
+The first argument to a Functional Component is an object that contains the component's properties.
+
+    function HelloWorld(props){
+        return <h1>Message: {props.message}</h1>
+    }
+You can supply property values the same way as you supply attribute values:
+
+   ReactDOM.render(
+        <HelloWorld message="Hello World!"/>,
+        document.getElementById("root")
+    )
+Properties can be string literals, arrays or any other type of JavaScript object including other React Elements:
+
+    function HelloWorld(props){
+        return <h1>Value: {props.numberArray[props.index]} </h1>
+    }
+
+    ReactDOM.render(
+        <HelloWorld index = "3" numberArray={[1,2,3,4,5]}/>,
+        document.getElementById("root")
+    )
+You can supply as many property values as you want and they will all be accessible through the props argument.
+
+Composing Components
+Functional Components can include other Functional Components in their output. This lets us keep our components organized and readible.
+
+For example, look at this Shopping Application that makes use of Composition:
+
+
+    function ShoppingTitle(props){
+        return (
+            <div>
+                <h1>{props.title}</h1>
+                <h2>Total Number of Items: {props.numItems}</h2>
+            </div>
+
+        ) 
+    }
+    function ListItem(props){
+        return <li>{props.item}</li>
+    }
+
+    function ShoppingList(props){
+        return (
+            <div>
+                <h3>{props.header}</h3>
+                <ol>
+                    <ListItem item = {props.items[0]}/>
+                    <ListItem item = {props.items[1]}/>
+                    <ListItem item = {props.items[2]}/>
+                </ol>
+            </div>
+        )
+    }
+
+
+    function ShoppingApp(props){
+
+        return (
+            <div>
+                <ShoppingTitle title = "My Shopping List" numItems = "9"/>
+                <ShoppingList header = "Food" items = {[ "Apple","Bread","Cheese"]}/>
+                <ShoppingList header = "Clothes" items = {[ "Shirt","Pants","Hat"]}/>
+                <ShoppingList header = "Supplies" items = {[ "Pen","Paper","Glue"]}/>
+            </div>
+        )
+    }
+
+    ReactDOM.render(
+        <ShoppingApp/>,
+        document.getElementById("root")
+    )
+Compare that to just defining all the UI in one Functional Component.
+
+
+    function ShoppingApp(props){
+        return (
+            <div>
+                <div>
+                    <h1>My Shopping List</h1>
+                    <h2>Total Number of Items: 9</h2>
+                </div>
+                <div>
+                    <h3>Food</h3>
+                    <ol>
+                        <li>Apple</li>
+                        <li>Bread</li>
+                        <li>Cheese</li>
+                    </ol>
+                </div>
+
+                <div>
+                    <h3>Clothes</h3>
+                    <ol>
+                        <li>Shirt</li>
+                        <li>Pants</li>
+                        <li>Hat</li>
+                    </ol>
+                </div>
+
+                <div>
+                    <h3>Supplies</h3>
+                    <ol>
+                        <li>Pen</li>
+                        <li>Paper</li>
+                        <li>Glue</li>
+                    </ol>
+                </div>
+
+
+            </div>
+        )
+    }
+
+    ReactDOM.render(
+        <ShoppingApp/>,
+        document.getElementById("root")
+    )
+    
+    Conditional Rendering
+The output of a Functional Component can be determined based on its properties.
+
+For example:
+
+
+    function Feature(props){
+        if (props.active == true){
+            return <h1>This feature is active</h1>
+        }
+        else{
+            return <h1>This feature is not active</h1>
+        }
+
+    }
+This can also be accomplished using an inline conditional operator:
+
+
+    function Feature(props){
+        return <h1>This feature is {props.active? "active" : "not active"}</h1>
+    }
+Preventing Rendering
+The output of a Functional Component can be prevented from rendering.
+
+For example:
+
+
+    function Feature(props){
+        if(props.active!){
+            return null
+        }
+        else{
+            return <h1>{props.message}</h1>
+        }
+    }
+You can also conditionally prevent a feature from rendering using the && operator:
+
+    function Feature(props){
+        return (
+            props.active && <h1>{props.message}</h1>
+        )
+    }
+With the && operator, true and expression will always evaluate to expression. On the other hand, false and expression will always evaluate to false which won't render.
+
+Module 1 Tutorial
+This tutorial is attended to teach you how to model an HTML DOM using React Components.
+
+Link to Codepen Solution
+
+We will be converting the following page into a ReactJS application:
+
+Image of an HTML DOM
+
+Step 1: Break up the UI into components
+The first step is to identify parts of the UI that can be broken into their own components.
+
+Image of an HTML DOM
+
+As the above image shows, we have broken up the application into several sections:
+
+A component that contains a title and description of the shopping application (blue)
+A component that contains a header a list of three items (red)
+A component that represents a list items (dark red)
+Step 2: Creating the individual React Components
+To start off, we will create a React Component that represents an individual list item. For now, we will return a <li> tag with a test string, but later on we will replace it with an attribute passed from the component's properties.
+
+    function ListItem(props){
+        return <li>Test String</li>
+    }
+We can test the component by rendering it to the page, be sure to add a root div in the HTML page:
+
+   
+    <div id="root"> </div>
+    ReactDOM.render(
+        <ListItem/>,
+        document.getElementById("root")
+    )
+Next will create a React Component that contains the application's title and description. For now, we will return <h1> and <h2> tags that contain test strings, but later on we will replace them with attributes passed from the component's properties. We must wrap the headers with <div> tag to ensure that there is one element that encompasses all of the returned React Elements. In addition, we must surround the returned value with parenthesis since the return value spans several lines.
+
+    function ShoppingTitle(props){
+        return (
+            <div>
+                <h1>Test Title</h1>
+                <h2>Test Description</h2>
+            </div>
+
+        ) 
+    }
+We can test the component by rendering it to the page:
+
+    ReactDOM.render(
+        <ShoppingTitle/>,
+        document.getElementById("root")
+    )
+Lastly, we will create the component that contains a header and three ListItem components. For now, we will return a <h3> tag with a test string, but later on we will replace it with an attribute passed from the component's properties. We must wrap the headers with <div> tag to ensure that there is one element that encompasses all of the returned React Elements. In addition, we must surround the returned value with parenthesis since the return value spans several lines.
+
+    function ShoppingList(props){
+        return (
+            <div>
+                <h3>Test Header</h3>
+                <ol>
+                    <ListItem/>
+                    <ListItem/>
+                    <ListItem/>
+                </ol>
+            </div>
+        )
+    }
+We can test the component by rendering it to the page:
+
+    ReactDOM.render(
+        <ShoppingList/>,
+        document.getElementById("root")
+    )
+Step 3: Putting the components together
+Now that we have created and tested the individual React Components, we will now encompass them under one React Component. The ShoppingApp component will contain the ShoppingTitle component and three ShoppingList components.
+
+    function ShoppingApp(props){
+
+        return (
+            <div>
+                <ShoppingTitle/>
+                <ShoppingList/>
+                <ShoppingList/>
+                <ShoppingList/>
+            </div>
+        )
+    }
+We can test the application by rendering it to the page:
+
+    ReactDOM.render(
+        <ShoppingApp/>,
+        document.getElementById("root")
+    )
+Step 4: Adding in the application data
+Now that we have our entire application modeled using React Components, we can now replace our test strings with the actual application data.
+
+    function ShoppingApp(props){
+
+        return (
+            <div>
+                <ShoppingTitle title = "My Shopping List" numItems = "9"/>
+                <ShoppingList header = "Food" items = {[ "Apple","Bread","Cheese"]}/>
+                <ShoppingList header = "Clothes" items = {[ "Shirt","Pants","Hat"]}/>
+                <ShoppingList header = "Supplies" items = {[ "Pen","Paper","Glue"]}/>
+            </div>
+        )
+    }
+In the ShoppingApp component, I have added several attributes that contain the application data. I have supplied an array of strings to the items attribute of the ShoppingList component. The items in the array will be passed down to the individual ListItem components within the ShoppingList component. The numItems attribute on the ShoppingTitle component represents the number of total items in all of the shopping lists. This value will be included in the second header of the ShoppingApp component.
+
+Now we must edit the ShoppingList component to make use of the supplied data. The shopping list headers can be accessed through props.header and the shopping items can be accessed from their indices from the props.items array.
+
+
+    function ShoppingList(props){
+        return (
+            <div>
+                <h3>{props.header}</h3>
+                <ol>
+                    <ListItem item = {props.items[0]}/>
+                    <ListItem item = {props.items[1]}/>
+                    <ListItem item = {props.items[2]}/>
+                </ol>
+            </div>
+        )
+    }
+Next, we must edit the ShoppingTitle component to make use of the supplied data. The title and number of items can be accessed through props.title and props.numItems respectively.
+
+
+    function ShoppingTitle(props){
+        return (
+            <div>
+                <h1>{props.title}</h1>
+                <h2>Total Number of Items: {props.numItems}</h2>
+            </div>
+
+        ) 
+    }
+Lastly, we must edit the ListItem component to make use of the supplied data. The item name can be accessed through the props.item.
+
+    function ListItem(props){
+        return <li>{props.item}</li>
+    }
+Now that we have completed all of the steps, we can test our entire application by rendering it to the page:
+
+    ReactDOM.render(
+        <ShoppingApp/>,
+        document.getElementById("root")
+    )
+    
+    
+    
+ Class Components
+In addition to being written as a function, React Components can also be written using ES6 classes. Class Components differ from Functional Components because they allow React Components to have life cycle methods and state. Class components have two instance properties, this.state and this.props, that represent the component's state and properties respectively.
+
+React Component written using ES6 classes:
+
+class Welcome extends React.Component{
+    render(){
+        return <h1>Hello World!</h1>
+    }
+}
+This is the same as the following Functional Component:
+
+function Welcome(){
+    return <h1>Hello World!</h1>
+}
+Both types of React Components can be used by writing their name within an HTML tag:
+
+var element = <Welcome/>
+Render()
+The render() method of a class component is used to describe what kind of React Element is going to be returned from the Class Component. It the same as the return value of of a Functional Component.
+
+For example, the following Class Component will render<h1>Hello World!</h1>:
+
+<div id="root"></div>
+class Welcome extends React.Component{
+    render(){
+        return <h1>Hello World!</h1>
+    }
+} 
+
+//renders <h1>Hello World!</h1>
+ReactDOM.render(
+    <Welcome/>,
+    document.getElementById("root")
+)
+Adding properties to Class Components
+The properties of a Class Component can be accessed through the this.props attribute. This differs slightly from Functional Components where the properties were passed in as a variable.
+
+class Welcome extends React.Component{
+    render(){
+        return <h1>Message: {this.props.message}</h1>
+    }
+}
+You can supply property values the same way as you supply attribute values:
+
+<Welcome message="Hello World!"/>
+
+Constructor(props)
+The constructor() method is called before a React Component is mounted and is used to set up the initial state of the component. It is important to call super(props) at the beginning of the constructor() method or else the this.props attribute may not work correctly. The first argument to the constructor() method represents the properties that are passed into the component.
+
+class Counter extends React.Component{
+    constructor(props){
+        super(props)
+    }
+    render(){
+        return <div>Hello World!</div>
+    }
+}
+Adding an initial state to Class Components
+The initial state of a Class Component can be declared within the constructor() method. The state of the component must be declared as an object with attributes.
+
+
+class Counter extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = {foo:123,bar:456}
+    }
+    render(){
+        return <div>foo:{this.state.foo} bar:{this.state.bar}</div>
+    }
+}
+Updating state
+The setState(updater,[callback]) method is used to update the state of the component. It takes in an updater object and updates the component state by shallowly merging the updater object's attributes with the previous component state. The method updates the state asynchronously, so a there is an option callback that will be called once the state has finished updating completely. In order to use the setState() method, it must be referenced by calling this.setState().
+
+The setState method will trigger the updating phase of the component lifecycle to start. This will cause the component to rerender unless the shouldComponentUpdate() function returns false.
+
+Example:
+
+this.setState({message:"new message"})
+For example:
+
+
+
+class Counter extends React.Component{
+    constructor(props){
+        super(props)
+        //initial state set up
+        this.state = {message:"initial message"}
+    }
+    componentDidMount(){
+        //updating state
+        this.setState({message:"new message"})
+    }
+    render(){
+        return <div>Message:{this.state.message}</div>
+    }
+}
+Updating state based on previous state
+The setState() method does not immediately update the state of the component, it just puts the update in a queue to be processed later. React may batch multiple update requests together to make rendering more efficient. Due to this, special precautions must be made when updating the state based on the component's previous state. 
+
+For example, the following code will only increment the state value attribute by 1 even though it was called 4 times:
+
+
+
+class Counter extends React.Component{
+    constructor(props){
+        super(props)
+        //initial state set up
+        this.state = {value:0}
+    }
+    componentDidMount(){
+        //updating state
+        this.setState({value:this.state.value+1})
+        this.setState({value:this.state.value+1})
+        this.setState({value:this.state.value+1})
+        this.setState({value:this.state.value+1})
+    }
+    render(){
+        return <div>Message:{this.state.message}</div>
+    }
+}
+The setState(updater,[callback]) method can take in an updater function as its first argument to update the state based on the previous state and properties. The return value of the updater function will be shallowly merged with the previous component state. The method updates the state asynchronously, so a there is an option callback that will be called once the state has finished updating completely.
+
+Example:
+
+this.setState((prevState, props) => { 
+    return {attribute:"value"}
+})
+Here is an example of how to update the state based on previous state:
+
+class Counter extends React.Component{
+    constructor(props){
+        super(props)
+        //initial state set up
+        this.state = {message:"initial message"}
+    }
+    componentDidMount()
+        //updating state
+        this.setState((prevState, props) => {
+            return {message: prevState.message + '!'}
+        })
+    }
+    render(){
+        return <div>Message:{this.state.message}</div>
+    }
+}
+Using future state values
+Since state updates asynchronously, you can not just expect the state values to update immediately after a setState() method call.
+
+For example, the console log may not output the updated state:
+
+//this.state.count is originally 0
+this.setState({count:42})
+console.log(this.state.count)
+//outputs 0 still
+In order to use a state after it has been updated, do all logic in the callback argument:
+
+//this.state.count is originally 0
+this.setState({count:42}, () = {
+    console.log(this.state.count)
+    //outputs 42
+})
+State is not mutable
+State is read only so you should not try to manually change the values of the state attributes. If the state needs to be updated, the setState() method is the only way to change the state.
+
+For example, don't do this:
+
+//incorrect, state should not be mutated directly
+this.state.message = "new message"
+
+Life Cycle Methods
+Each Class Component goes through a component life cycle with multiple phases. There are several life cycle methods that can be overridden to run code at different parts of the life cycle.
+
+Mounting Phase Methods
+The mounting phase begins when an instance of a component is created and rendered into the DOM. The following lifecycle methods occur in the order they are listed:
+
+constructor(props) - called when the component is first initialized. This method is only called once.
+componentWillMount() - called when a component is about to mount.
+render() - called when a component is rendered.
+componentDidMount() - called when a component has finished mounting. This is where network requests are usually made.
+Updating Phase Methods
+The updating phase begins when a component's properties or state changes. The following lifecycle methods occur in the order they are listed:
+
+componentWillReceiveProps(nextProps) - called when a component has updated and is receiving new props.
+shouldComponentUpdate(nextProps, nextState) - called after receiving props and is about to update. If this method returns false, componentWillUpdate(), render(), and componentDidUpdate() will not execute.
+componentWillUpdate(nextProps, nextState) - called when a component is about to be updated.
+render() - called when a component is rerendered.
+componentDidUpdate(prevProps, prevState) - called when a component has finished updating.
+Unmounting Phase Methods
+The unmounting phase begins when a component is being removed from the DOM. The following life cycle method occurs during the unmounting phase:
+
+componentWillUnmount() - called immediately before a component unmounts. This is where any cleanups are made such as cancelling timers or network requests.
+
+
+
